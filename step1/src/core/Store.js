@@ -10,7 +10,11 @@ import Storage from '../storage/index.js';
  *
  *
  *
- * -----  
+ * ----- 참고 사항 ------
+ * VueX 기반의 클래스 및 변수명으로 구성
+ * '#' 기호는 클래스 내부에서만 사용 가능 ( private 속성 )
+ * '$' 기호는 중요한 퍼블릭 속성이라는 의미 ( Vue 스타일의 컨벤션)
+ *
  * **/
 export const Store = class {
 
