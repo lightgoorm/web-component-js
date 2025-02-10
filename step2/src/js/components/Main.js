@@ -1,5 +1,5 @@
 import atom from '../hooks/atom.js';
-import useState from '../hooks/custom-use-state.js';
+import {useState} from '../hooks/custom-use-state-opti.js';
 import { CustomUseRecoilValue } from '../hooks/custom-use-recoil.js';
 
 import CustomMenuSet from '../utils/custom-menu-set.js';
@@ -8,8 +8,14 @@ import { $, MENUTYPE, TEXT } from '../utils/utils.js';
 import MenuList from './MenuList.js';
 
 export default function Main($target) {
+  console.log('타겟', $target);
   const currentMenuType = CustomUseRecoilValue('CURRENT_MENUTYPE', Main, $target);
-  const [menuLists, setMenuList] = useState(atom.MENULISTS, Main, $target);
+
+  // const [menuLists, setMenuList] = useState(atom.MENULISTS, Main, $target);
+  const [menuLists, setMenuList] = useState(atom.MENULISTS, Main,(newState) => {
+    console.log('test' , newState);
+    Main(newState);
+  });
 
   const render = () => {
     $target.innerHTML = /*html*/`
@@ -20,15 +26,12 @@ export default function Main($target) {
         </div>
         <form id="espresso-menu-form">
           <div class="d-flex w-100">
-            <label for="espresso-menu-name" class="input-label" hidden>
-              에스프레소 메뉴 이름
-            </label>
             <input
                     type="text"
                     id="espresso-menu-name"
                     name="espressoMenuName"
                     class="input-field"
-                    placeholder="에스프레소 메뉴 이름"
+                    placeholder="${MENUTYPE[currentMenuType]} 메뉴 이름"
                     autocomplete="off"
             />
             <button
@@ -77,6 +80,7 @@ export default function Main($target) {
 
     if (classList.contains('menu-remove-button')) {
       if (window.confirm(TEXT.REMOVE)) {
+
         removeMenuList(e.target.parentNode.querySelector('.menu-name').textContent);
       }
     }
