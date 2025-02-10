@@ -58,6 +58,8 @@ export function useState(initialState, component, callback){
     stateManager.subscribe(component, callback);
   }
 
+  //commit test
+
   return [state,setState];
 
 }
